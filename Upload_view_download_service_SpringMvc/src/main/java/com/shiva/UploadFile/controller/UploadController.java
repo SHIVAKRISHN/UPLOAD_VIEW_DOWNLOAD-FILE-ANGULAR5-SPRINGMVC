@@ -1,7 +1,6 @@
 package com.shiva.UploadFile.controller;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +32,13 @@ public class UploadController {
 		uploadSerivce.saveUser(user);
 
 
+
+	}
+	
+	@RequestMapping(value = "/getUsers", method = RequestMethod.GET,produces = "application/json")
+	public @ResponseBody List<User>  getUsers()
+	{	
+		return uploadSerivce.getAllUsers();
 
 	}
 

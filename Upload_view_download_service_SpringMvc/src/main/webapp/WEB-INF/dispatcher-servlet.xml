@@ -56,6 +56,13 @@
 		annotation-driven transaction management; such as when @Transactional methods 
 		are invoked -->
 	<tx:annotation-driven />
+	
+	
+	 <context:annotation-config />
+	
+	<mvc:default-servlet-handler />
+	
+	<mvc:annotation-driven />
 
 
 </beans>
