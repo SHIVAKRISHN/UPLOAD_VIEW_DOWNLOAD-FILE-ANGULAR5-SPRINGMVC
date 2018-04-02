@@ -1,0 +1,5 @@
+.alignGrid{
+    display : grid;
+    grid-template-columns : 150px 315px;
+    grid-gap : 3px;
+}

@@ -38,4 +38,18 @@ public class UploadDaoImpl implements IUploadDao {
 		return userList;
 	}
 
+
+
+	@Transactional
+	public void deleteUser(String id) {
+		
+			entityManager.remove(getUserById(id));
+		
+	}
+	
+	public User getUserById(String id)
+	{
+		return entityManager.find(User.class, Integer.parseInt(id));
+	}
+
 }

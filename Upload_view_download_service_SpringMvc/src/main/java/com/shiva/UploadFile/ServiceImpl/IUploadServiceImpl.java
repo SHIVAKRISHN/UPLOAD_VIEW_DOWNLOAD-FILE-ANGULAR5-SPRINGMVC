@@ -27,4 +27,10 @@ public class IUploadServiceImpl implements IUploadService {
 		
 	}
 
+	public void deleteUser(String id) {
+		
+		uploadDao.deleteUser(id);
+		
+	}
+
 }

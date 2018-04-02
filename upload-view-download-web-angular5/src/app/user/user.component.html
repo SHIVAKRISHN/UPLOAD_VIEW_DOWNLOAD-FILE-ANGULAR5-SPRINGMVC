@@ -1,0 +1,200 @@
+<div>
+  <div class="modal-body">
+    <form role="form" #insertionForm="ngForm">
+      <div class="form-content">
+        <div class="form-group">
+          <div class="alignGrid">
+
+            <span class="popupLabel">Name:</span>
+
+            <input id="username" type="text" required class="form-control input-underline input-lg" id="" placeholder="Name" autocomplete="off"
+              name="username" #username="ngModel" [(ngModel)]="Username">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="alignGrid">
+
+            <span class="popupLabel">Email-Id:</span>
+
+
+            <input id="mail" type="text" required class="form-control input-underline input-lg" id="" placeholder="EmailId" autocomplete="off"
+              name="EmailId" #emailid="ngModel" [(ngModel)]="Emailid">
+
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <div class="alignGrid">
+
+            <span class="popupLabel">mobile.no:</span>
+            <input id="mobileNumber" type="text" required class="form-control input-underline input-lg" id="" placeholder="mobileNumber"
+              autocomplete="off" name="mobileNumber" #mobileNumber="ngModel" [(ngModel)]="MobileNumber">
+
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+
+          <div class="alignNormal">
+
+            <span class="popupLabel">Gender:</span>
+            <span>
+              <input type="radio" name="gender" value="Male" [(ngModel)]="Gender" /> Male
+              <input type="radio" name="gender" value="Female" [(ngModel)]="Gender" /> Female
+            </span>
+
+
+          </div>
+        </div>
+        <div class="form-group">
+
+          <div class="alignGrid">
+
+            <span class="popupLabel">Upload Document</span>
+
+            <input id="Upload_document" type='file' (change)="fileChangeEvent_doc($event)" name="docForUpload">
+
+          </div>
+
+
+
+        </div>
+        <div class="btn-group pull-left">
+          <button type="button" data-dismiss="modal" class="btn btn-success" title="insert" (click)="saveUser()">create</button>
+          <button type="button" data-dismiss="modal" class="btn btn-info" (click)="clear()">clear</button>
+
+    
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+
+
+</div>
+
+<br/>
+
+
+<div class="card pageBorder">
+  <!-- Card starts here -->
+  <div class="card-header">
+    <span class="main-heading">Users List</span>
+  </div>
+  <div class="card-body">
+
+    <div class="table-responsive-sm " style="overflow-x:auto;">
+      <table class="table table-hover table-bordered table-centered myJobsTable">
+        <th>Name</th>
+        <th>EmailId</th>
+        <th>MobileNumber</th>
+        <th>Gender</th>
+        <th>View In TextFormat</th>
+        <th>View In FileFormat(only pdf)</th>
+        <th>Download</th>
+        <th>Actions</th>
+        <tbody>
+
+          <ng-container>
+            <tr *ngFor="let user of _UploadService.user">
+              <td>{{user.name}}</td>
+              <td>{{user.emailId}}</td>
+              <td>{{user.mobileNumber}}</td>
+              <td>{{user.gender}}</td>
+              <td>
+                <i class="fa fa-eye" style="font-size:36px;color:brown;cursor:pointer" aria-hidden="true" (click)="viewFileInTxt(content,user.doucmentName)"></i>
+              </td>
+              <td>
+                <i *ngIf="user.doucmentName.indexOf('.pdf') !== -1" class="fa fa-eye" style="font-size:43px;color:coral;cursor:pointer"
+                  aria-hidden="true" (click)="viewFileInPdf(showPdf,user.doucmentName)"></i>
+              </td>
+              <td>
+                <a download [attr.href]="downloadFile(user.doucmentName)">
+                  <i class="fa fa-hand-o-down" style="font-size:48px;color:magenta; cursor:pointer"></i>
+                </a>
+              </td>
+              <td><i (click)="deleteUser(delPop,user.id)"  class="fa fa-trash-o" style="font-size:48px;color:red;cursor:pointer"></i></td>
+            </tr>
+
+
+          </ng-container>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Text View</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <pre *ngIf="_UploadService.FileContent==null">Loadnig....... <i class="fa fa-gear fa-spin" style="font-size:64px"></i></pre>
+    <pre [innerHTML]="_UploadService.FileContent"> <i class="fas fa-cog fa-spin"></i></pre>
+
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #showPdf let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Pdf View </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!--  <pre  *ngIf="_UploadService.FileContent==null">Loadnig....... <i class="fa fa-gear fa-spin" style="font-size:64px"></i></pre> -->
+    <!--  <pre  [innerHTML]="_UploadService.FileContent"> <i class="fas fa-cog fa-spin"></i></pre>
+      -->
+
+    <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(UrlOfTheFile)" width="100%" height="500px"></iframe>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #delPop let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <div class="modal-title">
+          <h4>Delete User</h4>
+        </div>
+        <button type="button" class="close pull-right" aria-label="Close"
+          (click)="d('Cross click')">
+          <span aria-hidden="true" class="">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure? You want to Delete?</p>
+      </div>
+      <div class="modal-footer">
+      <div class="form-group">
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="btn-group pull-right" role="group"
+                aria-label="Basic example">
+                <button type="button" class="btn btn-success"
+                  (click)="deleteUserResult()">Delete</button>
+                <button type="button" class="btn btn-danger"
+                  (click)="c('Close click')">cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+</ng-template>
+

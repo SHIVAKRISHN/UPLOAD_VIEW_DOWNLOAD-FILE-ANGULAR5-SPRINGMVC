@@ -27,8 +27,7 @@ public class User {
 	@Column(name="gender")
 	String gender;
 
-	@Column(name="imageName")
-	String imageName;
+	
 
 	@Column(name="doucmentName")
 	String doucmentName;
@@ -73,13 +72,7 @@ public class User {
 		this.gender = gender;
 	}
 
-	public String getImageName() {
-		return imageName;
-	}
-
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
+	
 
 	public String getDoucmentName() {
 		return doucmentName;
@@ -92,7 +85,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", emailId=" + emailId + ", mobileNumber=" + mobileNumber
-				+ ", gender=" + gender + ", imageName=" + imageName + ", doucmentName=" + doucmentName + "]";
+				+ ", gender=" + gender + ", doucmentName=" + doucmentName + "]";
 	}
 
 }

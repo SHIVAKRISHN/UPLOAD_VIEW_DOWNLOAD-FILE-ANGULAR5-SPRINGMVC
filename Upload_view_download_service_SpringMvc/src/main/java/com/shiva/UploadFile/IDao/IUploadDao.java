@@ -8,5 +8,6 @@ public interface IUploadDao {
 
 	public void saveUser(User user);
 	public List<User> getAllUsers();
-
+    public void deleteUser(String id);
+    
 }
